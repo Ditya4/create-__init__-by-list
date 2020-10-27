@@ -36,52 +36,56 @@ def create_init(start_text, list_to_transform):
     values_assigment(start_text, list_to_transform)
 
 
-
-
-
-
 def create_file_read_function(file_place, name_of_records,
                               len_of_elements, class_name):
-    print(f'def read_{name_of_records}({name_of_records}_file_name):')
+    print(f'\ndef read_{name_of_records}({name_of_records}_file_name):')
     print(f'    {name_of_records}_file = open({name_of_records}_file_name)',
     f'    {name_of_records}_lines = {name_of_records}_file.readlines()',
     f'    size_of_{name_of_records}_list = len({name_of_records}_lines)',
     f'    for index in range(size_of_{name_of_records}_list):',
     f'        {name_of_records}_lines[index] = (',
-    f'               {name_of_records}_lines[index].rstrip()',
-    f'    {name_of_records} = [None] * size_of_{name_of_records}',
+    f'               {name_of_records}_lines[index].rstrip())',
+    f'    {name_of_records} = [None] * size_of_{name_of_records}_list',
     f'    in_{name_of_records}_list_index = 0',
     f'    out_{name_of_records}_list_index = 0',
     f'    while in_{name_of_records}_list_index < size_of_{name_of_records}_list:',
-    f'        line_split =',
-    f'               {name_of_records}[in_{name_of_records}_list_index].split("\\t")',
+    f'        line_split = (',
+    f'               {name_of_records}[in_{name_of_records}_list_index].split("\\t"))',
     f'        if line_split[-1] == "\\n":',
     f'            line_split.pop()',
     f'        print(in_{name_of_records}_list_index, "line_split =", line_split)',
     f'        if len(line_split) == {len_of_elements}:',
     f'            {name_of_records}[out_{name_of_records}_list_index] = (',
     f'                            {class_name}(out_{name_of_records}_list_index,',
-    f'                            *line_split)',
+    f'                            *line_split))',
     f'            in_{name_of_records}_list_index += 1',
     f'            out_{name_of_records}_list_index += 1',
     f'        else:',
-    '            print(f"Error in line from file = {file_place}",',
-    '                  f"with index = {in_%s_list_index}",'%name_of_records,
+    '            print(f"Error in line from file = {by_hours_records_file_name}",',
+    '                  f"with index = {in_%s_list_index}",' % name_of_records,
     '                  f"with value {line_split}",',
-    '                  f"wait for {len_of_elements} parameters",',
+    '                  f"wait for %d parameters",' % len_of_elements,
     '                  f"and got len(line_split)")',
-    
+    # here could be print into error log file
+    f'            size_of_{name_of_records}_list -= 1',
+    f'            in_{name_of_records}_list_index += 1',
+    f'            {name_of_records}.pop()',
+    f'    return {name_of_records}',
     sep='\n')
-    
 
 
-
-
-
-
-
-
-
+def create__str__function():
+    print('\n    def __str__(self):')
+    print('        \'\'\'',
+          '        we return a string which almost looks like a list with str value',
+          '        of every field in record',
+          '        \'\'\'',
+          '        list_of_values = [str((t)) for name, t in self.__dict__.items()',
+          '                          if type(t).__name__ != "function" and',
+          '                          not name.startswith("__")]',
+          '        line_to_return = "[" + " , ".join(list_of_values) + "]"',
+          '        return line_to_return',
+          sep='\n')
 
 
 '''
@@ -89,7 +93,7 @@ def create_file_read_function(file_place, name_of_records,
 we need to create a class with name camel_style
 cause we use it in read function
 '''
-string_to_transform ='''
+string_to_transform = '''
         switch_id,switch_name,rs_id,rs_name,
         cday,h0,h1,h2,h3,
         h4,h5,h6,h7,h8,
@@ -112,7 +116,4 @@ create_init(start_text, list_to_transform)
 
 create_file_read_function(file_place, name_of_records, len_of_elements, class_name)
 
-
-
-
-    
+create__str__function()
