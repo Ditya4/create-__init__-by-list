@@ -112,8 +112,11 @@ for index in range(len_of_elements):
 
 # print(list_to_transform)
 
+
 create_init(start_text, list_to_transform)
+
+create__str__function()
 
 create_file_read_function(file_place, name_of_records, len_of_elements, class_name)
 
-create__str__function()
+
