@@ -43,8 +43,8 @@ def create_init(list_to_transform):
     values_assigment(start_text, list_to_transform)
 
                # in next line we delete file_place function pharameter
-def create_file_read_function(name_of_records,
-                              len_of_elements, class_name):
+def create_file_read_function(name_of_records, len_of_elements,
+                              class_name, file_name):
     print(f'\ndef read_{name_of_records}(folder, file_name):')
     print(
     f'    {name_of_records}_file_name = path.join(folder, file_name)',
@@ -70,7 +70,7 @@ def create_file_read_function(name_of_records,
     f'            in_{name_of_records}_list_index += 1',
     f'            out_{name_of_records}_list_index += 1',
     f'        else:',
-    '            print(f"Error in line from file = {by_hours_records_file_name}",',
+    '            print(f"Error in line from file = {file_name}",',
     '                  f"with index = {in_%s_list_index}",' % name_of_records,
     '                  f"with value {line_split}",',
     '                  f"wait for %d parameters",' % len_of_elements,
@@ -119,11 +119,11 @@ cause we use it in read function
     
 
 string_to_transform = '''
-        recipient_id, inc_tg, call_type, count, sum_dur
+        SWITCH_ID    UNI_A    UNI_B    BILL_DTM    INC_TG    DURATION    CDR_SET    SUBSTR_SERVICE_TYPE    OUTBLOCK
 '''
 folder = 'D:\python\double_dno\ms_ntk_in_same_amount\station 3203'
-file_name = '3203_ntk.txt'
-name_of_records = 'ntk_records'
+file_name = '3203_1_day_ms.txt'
+name_of_records = 'ms_calls'
 
 
 file_place = path.join(folder, file_name)
@@ -131,7 +131,10 @@ class_name = ''.join(word.title() for word in name_of_records.split('_'))
 create_import()
 
 print(f'class {class_name}:')
-list_to_transform = string_to_transform.split(',')
+if string_to_transform.find(',') > 0:
+    list_to_transform = string_to_transform.split(',')
+elif string_to_transform.find(' ') > 0:
+    list_to_transform = string_to_transform.strip().rstrip().split()
 len_of_elements = len(list_to_transform)
 for index in range(len_of_elements):
     list_to_transform[index] = list_to_transform[index].strip().rstrip().lower()
@@ -144,7 +147,7 @@ create_init(list_to_transform)
 
 create__str__function()
 
-create_file_read_function(name_of_records, len_of_elements, class_name)
+create_file_read_function(name_of_records, len_of_elements, class_name, file_name)
 
 create_main(name_of_records, folder, file_name)
 
