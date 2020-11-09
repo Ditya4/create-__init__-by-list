@@ -37,7 +37,8 @@ def values_assigment(start_text, list_to_transform):
               list_to_transform[index], sep='')
 
 
-def create_init(start_text, list_to_transform):
+def create_init(list_to_transform):
+    start_text = "    def __init__(self, "
     print_parameters(start_text, list_to_transform)
     values_assigment(start_text, list_to_transform)
 
@@ -46,8 +47,7 @@ def create_file_read_function(name_of_records,
                               len_of_elements, class_name):
     print(f'\ndef read_{name_of_records}(folder, file_name):')
     print(
-    f'    {name_of_records}_file_name = path.join(folder,',
-    f'                                            file_name)',
+    f'    {name_of_records}_file_name = path.join(folder, file_name)',
     f'    {name_of_records}_file = open({name_of_records}_file_name)',
     f'    {name_of_records}_lines = {name_of_records}_file.readlines()',
     f'    size_of_{name_of_records}_list = len({name_of_records}_lines)',
@@ -62,7 +62,7 @@ def create_file_read_function(name_of_records,
     f'               {name_of_records}_lines[in_{name_of_records}_list_index].split("\\t"))',
     f'        if line_split[-1] == "\\n":',
     f'            line_split.pop()',
-    f'        print(in_{name_of_records}_list_index, "line_split =", line_split)',
+    f'        # print(in_{name_of_records}_list_index, "line_split =", line_split)',
     f'        if len(line_split) == {len_of_elements}:',
     f'            {name_of_records}[out_{name_of_records}_list_index] = (',
     f'                            {class_name}(out_{name_of_records}_list_index,',
@@ -97,10 +97,12 @@ def create__str__function():
           sep='\n')
     
 def create_main(name_of_records, folder, file_name):
-    print('\n\n# main()',
-    f'folder = "{folder}"',
-    f'file_name = "{file_name}"',
-    f'list_of_{name_of_records} = read_{name_of_records}(folder, file_name)',
+    print(f'\n\n# main for {name_of_records} part():',
+    f'{name_of_records}_folder = "{folder}"',
+    f'{name_of_records}_file_name = "{file_name}"',
+    f'list_of_{name_of_records} = read_{name_of_records}('
+    f'{name_of_records}_folder, {name_of_records}_file_name)',
+    f'print("{name_of_records}_list:")',
     f'for record in list_of_{name_of_records}:',
     f'    print(record)',
     sep='\n')
@@ -114,21 +116,20 @@ we need to create a class with name camel_style
 cause we use it in read function
 
 '''
+    
+
 string_to_transform = '''
-        switch_id, inc_tg, substr_service_type, count, sum_dur
+        recipient_id, inc_tg, call_type, count, sum_dur
 '''
-start_text = "    def __init__(self, "
-#file_place = 'D:\\\python\\\double_dno\\\ms_ntk_in_same_amount\\\\3203\\\\3203_ms.txt'
 folder = 'D:\python\double_dno\ms_ntk_in_same_amount\station 3203'
-#split_folder = path.split(folder)
-#print(split_folder)
-file_name = '3203_ms.txt'
+file_name = '3203_ntk.txt'
+name_of_records = 'ntk_records'
+
+
 file_place = path.join(folder, file_name)
-
-name_of_records = 'ms_records'
 class_name = ''.join(word.title() for word in name_of_records.split('_'))
-
 create_import()
+
 print(f'class {class_name}:')
 list_to_transform = string_to_transform.split(',')
 len_of_elements = len(list_to_transform)
@@ -139,7 +140,7 @@ for index in range(len_of_elements):
 
 
 
-create_init(start_text, list_to_transform)
+create_init(list_to_transform)
 
 create__str__function()
 
