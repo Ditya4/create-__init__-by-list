@@ -1,3 +1,9 @@
+from os import path
+
+
+def create_import():
+    print('from os import path\n')
+
 def print_parameters(start_text, list_to_transform):
     print(start_text, "index=None, ", end='', sep='')
     index = 0
@@ -35,11 +41,14 @@ def create_init(start_text, list_to_transform):
     print_parameters(start_text, list_to_transform)
     values_assigment(start_text, list_to_transform)
 
-
-def create_file_read_function(file_place, name_of_records,
+               # in next line we delete file_place function pharameter
+def create_file_read_function(name_of_records,
                               len_of_elements, class_name):
-    print(f'\ndef read_{name_of_records}({name_of_records}_file_name):')
-    print(f'    {name_of_records}_file = open({name_of_records}_file_name)',
+    print(f'\ndef read_{name_of_records}(folder, file_name):')
+    print(
+    f'    {name_of_records}_file_name = path.join(folder,',
+    f'                                            file_name)',
+    f'    {name_of_records}_file = open({name_of_records}_file_name)',
     f'    {name_of_records}_lines = {name_of_records}_file.readlines()',
     f'    size_of_{name_of_records}_list = len({name_of_records}_lines)',
     f'    for index in range(size_of_{name_of_records}_list):',
@@ -50,7 +59,7 @@ def create_file_read_function(file_place, name_of_records,
     f'    out_{name_of_records}_list_index = 0',
     f'    while in_{name_of_records}_list_index < size_of_{name_of_records}_list:',
     f'        line_split = (',
-    f'               {name_of_records}[in_{name_of_records}_list_index].split("\\t"))',
+    f'               {name_of_records}_lines[in_{name_of_records}_list_index].split("\\t"))',
     f'        if line_split[-1] == "\\n":',
     f'            line_split.pop()',
     f'        print(in_{name_of_records}_list_index, "line_split =", line_split)',
@@ -65,7 +74,7 @@ def create_file_read_function(file_place, name_of_records,
     '                  f"with index = {in_%s_list_index}",' % name_of_records,
     '                  f"with value {line_split}",',
     '                  f"wait for %d parameters",' % len_of_elements,
-    '                  f"and got len(line_split)")',
+    '                  f"and got {len(line_split)}")',
     # here could be print into error log file
     f'            size_of_{name_of_records}_list -= 1',
     f'            in_{name_of_records}_list_index += 1',
@@ -86,24 +95,40 @@ def create__str__function():
           '        line_to_return = "[" + " , ".join(list_of_values) + "]"',
           '        return line_to_return',
           sep='\n')
+    
+def create_main(name_of_records, folder, file_name):
+    print('\n\n# main()',
+    f'folder = "{folder}"',
+    f'file_name = "{file_name}"',
+    f'list_of_{name_of_records} = read_{name_of_records}(folder, file_name)',
+    f'for record in list_of_{name_of_records}:',
+    f'    print(record)',
+    sep='\n')
 
 
 '''
 ### TODO
+we have some first column in file with 2200 value need to find what is it
+
 we need to create a class with name camel_style
 cause we use it in read function
+
 '''
 string_to_transform = '''
-        switch_id,switch_name,rs_id,rs_name,
-        cday,h0,h1,h2,h3,
-        h4,h5,h6,h7,h8,
-        h9,h10,h11,h12,h13,
-        h14,h15,h16,h17,h18,h19,H20,h21,h22,h23
+        switch_id, inc_tg, substr_service_type, count, sum_dur
 '''
 start_text = "    def __init__(self, "
-file_place = 'D:\\python\\double_dno\\by_hours\\mzts-3\\mzts_3_ama_all_time.txt'
-name_of_records = 'by_hours_records'
+#file_place = 'D:\\\python\\\double_dno\\\ms_ntk_in_same_amount\\\\3203\\\\3203_ms.txt'
+folder = 'D:\python\double_dno\ms_ntk_in_same_amount\station 3203'
+#split_folder = path.split(folder)
+#print(split_folder)
+file_name = '3203_ms.txt'
+file_place = path.join(folder, file_name)
+
+name_of_records = 'ms_records'
 class_name = ''.join(word.title() for word in name_of_records.split('_'))
+
+create_import()
 print(f'class {class_name}:')
 list_to_transform = string_to_transform.split(',')
 len_of_elements = len(list_to_transform)
@@ -113,10 +138,13 @@ for index in range(len_of_elements):
 # print(list_to_transform)
 
 
+
 create_init(start_text, list_to_transform)
 
 create__str__function()
 
-create_file_read_function(file_place, name_of_records, len_of_elements, class_name)
+create_file_read_function(name_of_records, len_of_elements, class_name)
+
+create_main(name_of_records, folder, file_name)
 
 
