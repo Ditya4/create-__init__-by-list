@@ -119,11 +119,11 @@ cause we use it in read function
     
 
 string_to_transform = '''
-        SWITCH_ID    UNI_A    UNI_B    BILL_DTM    INC_TG    DURATION    CDR_SET    SUBSTR_SERVICE_TYPE    OUTBLOCK
+        RECIPIENT_ID    NUMBER_A    NUMBER_B    DATE_START    DURATION    INC_TG    CALL_TYPE    CDR_SET_ID
 '''
 folder = 'D:\python\double_dno\ms_ntk_in_same_amount\station 3203'
-file_name = '3203_1_day_ms.txt'
-name_of_records = 'ms_calls'
+file_name = '3203_1_day_ntk.txt'
+name_of_records = 'ntk_calls'
 
 
 file_place = path.join(folder, file_name)
