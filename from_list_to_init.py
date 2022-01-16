@@ -44,7 +44,7 @@ def create_init(list_to_transform):
 
                # in next line we delete file_place function pharameter
 def create_file_read_function(name_of_records, len_of_elements,
-                              class_name, file_name):
+                              class_name, file_name, divider='\t'):
     print(f'\ndef read_{name_of_records}(folder, file_name):')
     print(
     f'    {name_of_records}_file_name = path.join(folder, file_name)',
@@ -59,7 +59,7 @@ def create_file_read_function(name_of_records, len_of_elements,
     f'    out_{name_of_records}_list_index = 0',
     f'    while in_{name_of_records}_list_index < size_of_{name_of_records}_list:',
     f'        line_split = (',
-    f'               {name_of_records}_lines[in_{name_of_records}_list_index].split("\\t"))',
+    f'               {name_of_records}_lines[in_{name_of_records}_list_index].split("{divider}"))',
     f'        if line_split[-1] == "\\n":',
     f'            line_split.pop()',
     f'        # print(in_{name_of_records}_list_index, "line_split =", line_split)',
@@ -118,12 +118,24 @@ cause we use it in read function
 '''
     
 
-string_to_transform = '''
-        SWITCH_ID    UNI_A    UNI_B    BILL_DTM    INC_TG    DURATION    CDR_SET    SUBSTR_SERVICE_TYPE    OUTBLOCK
-'''
-folder = 'D:\python\double_dno\ms_ntk_in_same_amount\station 3203'
-file_name = '3203_1_day_ms.txt'
-name_of_records = 'ms_calls'
+# string_to_transform = '''
+#         switch_id, uni_a, uni_b, bill_dtm, out_tg, duration, cdr_set_out, substr_service_type, outblock
+# '''
+# string_to_transform = '''
+#        name, hour_0,  date, hour_1, hour_2, hour_3, hour_4, hour_5, hour_6, hour_7, 
+#        hour_8, hour_9, hour_10, hour_11, hour_12, hour_13,  switch_id,
+#        hour_14, hour_15, hour_16, hour_17, hour_18, hour_19, hour_20,
+#        hour_21, hour_22, hour_23,  rs_id
+# '''
+string_to_transform = '''SWITCH_ID    SWITCH_NAME    RS_ID    RS_NAME'''
+
+        
+
+# folder = 'D:\python\double_dno\ms_ntk_same_amount_lviv_out\station_3200'
+folder = 'D:\python\double_dno\d_by_hours'
+divider = '\t'
+file_name = 'streams.txt'
+name_of_records = 'streams'
 
 
 file_place = path.join(folder, file_name)
@@ -147,7 +159,8 @@ create_init(list_to_transform)
 
 create__str__function()
 
-create_file_read_function(name_of_records, len_of_elements, class_name, file_name)
+create_file_read_function(
+    name_of_records, len_of_elements, class_name, file_name, divider)
 
 create_main(name_of_records, folder, file_name)
 
