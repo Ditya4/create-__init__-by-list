@@ -89,7 +89,7 @@ def create__str__function():
           '        we return a string which almost looks like a list with str value',
           '        of every field in record',
           '        \'\'\'',
-          '        list_of_values = [str((t)) for name, t in self.__dict__.items()',
+          '        list_of_values = [str(t) for name, t in self.__dict__.items()',
           '                          if type(t).__name__ != "function" and',
           '                          not name.startswith("__")]',
           '        line_to_return = "[" + " , ".join(list_of_values) + "]"',
@@ -127,15 +127,15 @@ cause we use it in read function
 #        hour_14, hour_15, hour_16, hour_17, hour_18, hour_19, hour_20,
 #        hour_21, hour_22, hour_23,  rs_id
 # '''
-string_to_transform = '''SWITCH_ID    SWITCH_NAME    RS_ID    RS_NAME'''
-
+# string_to_transform = '''SWITCH_ID    SWITCH_NAME    RS_ID    RS_NAME'''
+string_to_transform = '''stat_id    switch_id    switch_name    rs_id    rs_name    cday    h0    h1    h2    h3    h4    h5    h6    h7    h8    h9    h10    h11    h12    h13    h14    h15    h16    h17    h18    h19    h20    h21    h22    h23'''
         
 
 # folder = 'D:\python\double_dno\ms_ntk_same_amount_lviv_out\station_3200'
-folder = 'D:\python\double_dno\d_by_hours'
-divider = '\t'
-file_name = 'streams.txt'
-name_of_records = 'streams'
+folder = 'D:\python\double_dno\d_by_hours_2'
+divider = ','
+file_name = 'by_hours_from_dev_utf-8.csv'
+name_of_records = 'by_hours'
 
 
 file_place = path.join(folder, file_name)
@@ -144,7 +144,7 @@ create_import()
 
 print(f'class {class_name}:')
 if string_to_transform.find(',') > 0:
-    list_to_transform = string_to_transform.split(',')
+    list_to_transform = string_to_transform.split('\t')
 elif string_to_transform.find(' ') > 0:
     list_to_transform = string_to_transform.strip().rstrip().split()
 len_of_elements = len(list_to_transform)
